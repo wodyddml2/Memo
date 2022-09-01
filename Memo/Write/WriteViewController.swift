@@ -30,11 +30,7 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func shareButtonClicked() {
-        do {
-            try! repository.localRealm.write({
-                repository.localRealm.deleteAll()
-            })
-        }
+      
         
     }
     

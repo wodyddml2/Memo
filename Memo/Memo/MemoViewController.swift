@@ -10,12 +10,14 @@ class MemoViewController: BaseViewController {
     var memoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
+            navigationItem.title = "\(countFormat())개의 메모"
         }
     }
     
     var fixedMemoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
+            navigationItem.title = "\(countFormat())개의 메모"
         }
     }
     
@@ -38,7 +40,7 @@ class MemoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
+        //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +53,7 @@ class MemoViewController: BaseViewController {
         navigationItem.searchController = memoSearchController
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = "1개의 메모"
+        
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let writeButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(writeButtonClicked))
@@ -67,6 +69,12 @@ class MemoViewController: BaseViewController {
     @objc func writeButtonClicked() {
         let vc = WriteViewController()
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func countFormat() -> String {
+        let numberFormat = NumberFormatter()
+        numberFormat.numberStyle = .decimal
+        return numberFormat.string(for: (memoTasks?.count ?? 0) + (fixedMemoTasks?.count ?? 0)) ?? "0"
     }
     
     override func setConstraints() {
@@ -144,7 +152,22 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
-            
+            do {
+//                try! self.repository.localRealm.write{
+//                    self.repository.localRealm.deleteAll()
+////                    if self.fixedMemoTasks?.isEmpty == true {
+////                        self.repository.localRealm.delete(self.memoTasks![indexPath.row])
+////                    } else {
+////                        if indexPath.section == 0 {
+////                            self.repository.localRealm.delete(self.fixedMemoTasks![indexPath.row])
+////                        } else {
+////
+////                            self.repository.localRealm.delete(self.memoTasks![indexPath.row])
+////
+////                        }
+////                    }
+//                }
+            }
         }
         
         delete.image = UIImage(systemName: "trash.fill")
