@@ -153,21 +153,23 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
             do {
-//                try! self.repository.localRealm.write{
-//                    self.repository.localRealm.deleteAll()
-////                    if self.fixedMemoTasks?.isEmpty == true {
-////                        self.repository.localRealm.delete(self.memoTasks![indexPath.row])
-////                    } else {
-////                        if indexPath.section == 0 {
-////                            self.repository.localRealm.delete(self.fixedMemoTasks![indexPath.row])
-////                        } else {
-////
-////                            self.repository.localRealm.delete(self.memoTasks![indexPath.row])
-////
-////                        }
-////                    }
-//                }
+                try! self.repository.localRealm.write{
+                    if self.fixedMemoTasks?.isEmpty == true {
+                        self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+                    } else {
+                        if indexPath.section == 0 {
+                            self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
+                        } else {
+                            
+                            self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+                            
+                        }
+                    }
+                }
+                
             }
+            self.memoTasks = self.repository.fetchMemoFilter()
+            self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
         }
         
         delete.image = UIImage(systemName: "trash.fill")

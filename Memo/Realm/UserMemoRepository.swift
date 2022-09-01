@@ -31,4 +31,10 @@ class UserMemoRepository: UserMemoRepositoryType {
             item.memoFix.toggle()
         }
     }
+    
+    func deleteMemo(item: UserMemo) {
+        try! localRealm.write {
+            localRealm.delete(item)
+        }
+    }
 }
