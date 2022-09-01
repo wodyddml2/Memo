@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63BFFED328C09B120045D44A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED228C09B120045D44A /* SnapKit */; };
+		63BFFED628C09B3B0045D44A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED528C09B3B0045D44A /* Realm */; };
+		63BFFED828C09B3B0045D44A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED728C09B3B0045D44A /* RealmSwift */; };
+		63BFFEDB28C09B870045D44A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEDA28C09B870045D44A /* BaseViewController.swift */; };
+		63BFFEDD28C09B8F0045D44A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEDC28C09B8F0045D44A /* BaseView.swift */; };
+		63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */; };
 		63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520028BF3E70003822BA /* AppDelegate.swift */; };
 		63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520228BF3E70003822BA /* SceneDelegate.swift */; };
 		63E1520528BF3E70003822BA /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520428BF3E70003822BA /* MemoViewController.swift */; };
@@ -18,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		63BFFEDA28C09B870045D44A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		63BFFEDC28C09B8F0045D44A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		63E151FD28BF3E70003822BA /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E1520028BF3E70003822BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63E1520228BF3E70003822BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,12 +44,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BFFED828C09B3B0045D44A /* RealmSwift in Frameworks */,
+				63BFFED628C09B3B0045D44A /* Realm in Frameworks */,
+				63BFFED328C09B120045D44A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63BFFED928C09B700045D44A /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				63BFFEDA28C09B870045D44A /* BaseViewController.swift */,
+				63BFFEDC28C09B8F0045D44A /* BaseView.swift */,
+				63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		63E151F428BF3E70003822BA = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +84,7 @@
 			children = (
 				63E1520028BF3E70003822BA /* AppDelegate.swift */,
 				63E1520228BF3E70003822BA /* SceneDelegate.swift */,
+				63BFFED928C09B700045D44A /* Utility */,
 				63E1520428BF3E70003822BA /* MemoViewController.swift */,
 				63E1521728BF415B003822BA /* PopupViewController.swift */,
 				63E1521528BF4151003822BA /* WriteViewController.swift */,
@@ -89,6 +112,11 @@
 			dependencies = (
 			);
 			name = Memo;
+			packageProductDependencies = (
+				63BFFED228C09B120045D44A /* SnapKit */,
+				63BFFED528C09B3B0045D44A /* Realm */,
+				63BFFED728C09B3B0045D44A /* RealmSwift */,
+			);
 			productName = Memo;
 			productReference = 63E151FD28BF3E70003822BA /* Memo.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +145,10 @@
 				Base,
 			);
 			mainGroup = 63E151F428BF3E70003822BA;
+			packageReferences = (
+				63BFFED128C09B120045D44A /* XCRemoteSwiftPackageReference "SnapKit" */,
+				63BFFED428C09B3B0045D44A /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = 63E151FE28BF3E70003822BA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -144,11 +176,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */,
 				63E1521828BF415B003822BA /* PopupViewController.swift in Sources */,
 				63E1520528BF3E70003822BA /* MemoViewController.swift in Sources */,
 				63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */,
 				63E1521628BF4152003822BA /* WriteViewController.swift in Sources */,
+				63BFFEDD28C09B8F0045D44A /* BaseView.swift in Sources */,
 				63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */,
+				63BFFEDB28C09B870045D44A /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +405,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		63BFFED128C09B120045D44A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		63BFFED428C09B3B0045D44A /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63BFFED228C09B120045D44A /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63BFFED128C09B120045D44A /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		63BFFED528C09B3B0045D44A /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63BFFED428C09B3B0045D44A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		63BFFED728C09B3B0045D44A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63BFFED428C09B3B0045D44A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 63E151F528BF3E70003822BA /* Project object */;
 }
