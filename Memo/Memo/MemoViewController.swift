@@ -1,8 +1,17 @@
 import UIKit
 
 import SnapKit
+import RealmSwift
 
 class MemoViewController: BaseViewController {
+    
+    let repository = UserMemoRepository()
+    
+    var tasks: Results<UserMemo>? {
+        didSet {
+            memoTableView.reloadData()
+        }
+    }
     
     private lazy var memoTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
@@ -23,8 +32,13 @@ class MemoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
+        print(tasks?.count)
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tasks = repository.fetch()
+    }
     override func configureUI() {
         view.addSubview(memoTableView)
         navigationItem.searchController = memoSearchController
@@ -44,7 +58,8 @@ class MemoViewController: BaseViewController {
     }
     
     @objc func writeButtonClicked() {
-        
+        let vc = WriteViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func setConstraints() {
@@ -62,7 +77,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         return 2
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return tasks?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,8 +85,14 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        cell.textLabel?.text = "S"
+        cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
+        cell.memoDateLabel.text = tasks?[indexPath.row].memoDate
+        cell.memoSubTitleLabel.text = "df"
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -94,7 +115,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 70
+        return 60
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -109,10 +130,12 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let fix = UIContextualAction(style: .normal, title: "") { action, view, completionHandler in
+            self.repository.updateFix(item: self.tasks![indexPath.row])
             
+            self.tasks = self.repository.fetch()
         }
-        
-        fix.image = UIImage(systemName: "pin.fill")
+        let imageName = tasks![indexPath.row].memoFix ? "pin.slash.fill" : "pin.fill"
+        fix.image = UIImage(systemName: imageName)
         fix.backgroundColor = .orange
         
         return UISwipeActionsConfiguration(actions: [fix])
