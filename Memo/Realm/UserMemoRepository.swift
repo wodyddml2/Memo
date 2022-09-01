@@ -16,7 +16,15 @@ protocol UserMemoRepositoryType {
 
 class UserMemoRepository: UserMemoRepositoryType {
     
-    let localRealm = try! Realm()
+    let config = Realm.Configuration(schemaVersion: 1) { migration, oldSchemaVersion in
+        if oldSchemaVersion < 1 {
+            migration.enumerateObjects(ofType: UserMemo.className()) { oldObject, newObject in
+                newObject!["memoDate"] = "\(oldObject!["memoDate"] ?? String.self)"
+            }
+        }
+    }
+    
+    lazy var localRealm = try! Realm(configuration: config)
     
     func fetchMemoFilter() -> Results<UserMemo> {
         return localRealm.objects(UserMemo.self).filter("memoFix == %@", false)

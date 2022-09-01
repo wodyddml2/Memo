@@ -113,18 +113,19 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        // 매개변수에 클로저를 넣은 함수로 중복코드 없애자
         if fixedMemoTasks?.isEmpty == true {
             cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
-            cell.memoDateLabel.text = memoTasks?[indexPath.row].memoDate
+            cell.memoDateLabel.text = "\(memoTasks?[indexPath.row].memoDate ?? Date())"
             cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
         } else {
             if indexPath.section == 0 {
                 cell.memoTitleLabel.text = fixedMemoTasks?[indexPath.row].memoTitle
-                cell.memoDateLabel.text = fixedMemoTasks?[indexPath.row].memoDate
+                cell.memoDateLabel.text = "\(fixedMemoTasks?[indexPath.row].memoDate ?? Date())"
                 cell.memoSubTitleLabel.text = fixedMemoTasks?[indexPath.row].memoSubTitle
             } else {
                 cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
-                cell.memoDateLabel.text = memoTasks?[indexPath.row].memoDate
+                cell.memoDateLabel.text = "\(memoTasks?[indexPath.row].memoDate ?? Date())"
                 cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
             }
         }

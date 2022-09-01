@@ -35,7 +35,7 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func okButtonClicked() {
-        let task = UserMemo(memoTitle: mainView.memoTextView.text ?? "s", memoDate: "\(Date())", memoSubTitle: "Ss", memoFix: false)
+        let task = UserMemo(memoTitle: mainView.memoTextView.text ?? "s", memoDate: Date(), memoSubTitle: "Ss", memoFix: false)
         
         do {
             try! repository.localRealm.write {
