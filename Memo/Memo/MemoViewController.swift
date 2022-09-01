@@ -113,10 +113,22 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        if fixedMemoTasks?.isEmpty == true {
+            cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
+            cell.memoDateLabel.text = memoTasks?[indexPath.row].memoDate
+            cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
+        } else {
+            if indexPath.section == 0 {
+                cell.memoTitleLabel.text = fixedMemoTasks?[indexPath.row].memoTitle
+                cell.memoDateLabel.text = fixedMemoTasks?[indexPath.row].memoDate
+                cell.memoSubTitleLabel.text = fixedMemoTasks?[indexPath.row].memoSubTitle
+            } else {
+                cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
+                cell.memoDateLabel.text = memoTasks?[indexPath.row].memoDate
+                cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
+            }
+        }
         
-        cell.memoTitleLabel.text = "Ss"
-        cell.memoDateLabel.text = "df"
-        cell.memoSubTitleLabel.text = "df"
         return cell
     }
     
@@ -152,22 +164,22 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
-            do {
-                try! self.repository.localRealm.write{
-                    if self.fixedMemoTasks?.isEmpty == true {
-                        self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-                    } else {
-                        if indexPath.section == 0 {
-                            self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
-                        } else {
-                            
-                            self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-                            
-                        }
-                    }
+          
+            
+            if self.fixedMemoTasks?.isEmpty == true {
+                self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+            } else {
+                if indexPath.section == 0 {
+                    self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
+                } else {
+                    
+                    self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+                    
                 }
-                
             }
+            
+            
+            
             self.memoTasks = self.repository.fetchMemoFilter()
             self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
         }
