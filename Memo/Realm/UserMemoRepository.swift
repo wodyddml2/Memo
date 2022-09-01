@@ -10,14 +10,20 @@ import Foundation
 import RealmSwift
 
 protocol UserMemoRepositoryType {
-    func fetch() -> Results<UserMemo>
+    func fetchMemoFilter() -> Results<UserMemo>
+    func fetchFixedMemoFilter() -> Results<UserMemo>
 }
 
 class UserMemoRepository: UserMemoRepositoryType {
+    
     let localRealm = try! Realm()
     
-    func fetch() -> Results<UserMemo> {
-        return localRealm.objects(UserMemo.self)
+    func fetchMemoFilter() -> Results<UserMemo> {
+        return localRealm.objects(UserMemo.self).filter("memoFix == %@", false)
+    }
+    
+    func fetchFixedMemoFilter() -> Results<UserMemo> {
+        return localRealm.objects(UserMemo.self).filter("memoFix == %@", true)
     }
     
     func updateFix(item: UserMemo) {

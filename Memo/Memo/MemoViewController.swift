@@ -7,7 +7,13 @@ class MemoViewController: BaseViewController {
     
     let repository = UserMemoRepository()
     
-    var tasks: Results<UserMemo>? {
+    var memoTasks: Results<UserMemo>? {
+        didSet {
+            memoTableView.reloadData()
+        }
+    }
+    
+    var fixedMemoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
         }
@@ -23,7 +29,7 @@ class MemoViewController: BaseViewController {
     }()
     
     private lazy var memoSearchController: UISearchController = {
-       let search = UISearchController(searchResultsController: nil)
+        let search = UISearchController(searchResultsController: nil)
         search.searchBar.delegate = self
         search.searchResultsUpdater = self
         return search
@@ -32,12 +38,13 @@ class MemoViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
-        print(tasks?.count)
+//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tasks = repository.fetch()
+        memoTasks = repository.fetchMemoFilter()
+        fixedMemoTasks = repository.fetchFixedMemoFilter()
     }
     override func configureUI() {
         view.addSubview(memoTableView)
@@ -48,7 +55,7 @@ class MemoViewController: BaseViewController {
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let writeButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(writeButtonClicked))
-
+        
         toolbarItems = [flexSpace, writeButton]
         
         navigationController?.toolbar.tintColor = .orange
@@ -69,15 +76,28 @@ class MemoViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide)
         }
     }
-
+    
 }
 
 extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        if fixedMemoTasks?.isEmpty == true {
+            return 1
+        } else {
+            return 2
+        }
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks?.count ?? 0
+        if fixedMemoTasks?.isEmpty == true {
+            return memoTasks?.count ?? 0
+        } else {
+            if section == 0 {
+                return fixedMemoTasks?.count ?? 0
+            } else {
+                return memoTasks?.count ?? 0
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -85,8 +105,9 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
-        cell.memoDateLabel.text = tasks?[indexPath.row].memoDate
+        
+        cell.memoTitleLabel.text = "Ss"
+        cell.memoDateLabel.text = "df"
         cell.memoSubTitleLabel.text = "df"
         return cell
     }
@@ -103,11 +124,14 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         label.frame = CGRect(x: 0, y: 10, width: tableView.bounds.width, height: header.frame.height - 20)
         
         label.font = .boldSystemFont(ofSize: 24)
-        
-        if section == 0 {
-            label.text = "고정된 메모"
-        } else {
+        if fixedMemoTasks?.isEmpty == true {
             label.text = "메모"
+        } else {
+            if section == 0 {
+                label.text = "고정된 메모"
+            } else {
+                label.text = "메모"
+            }
         }
         
         header.addSubview(label)
@@ -130,12 +154,33 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let fix = UIContextualAction(style: .normal, title: "") { action, view, completionHandler in
-            self.repository.updateFix(item: self.tasks![indexPath.row])
             
-            self.tasks = self.repository.fetch()
+            
+            if self.fixedMemoTasks?.isEmpty == true {
+                self.repository.updateFix(item: self.memoTasks![indexPath.row])
+            } else {
+                if indexPath.section == 0 {
+                    self.repository.updateFix(item: self.fixedMemoTasks![indexPath.row])
+                } else {
+                    if (self.fixedMemoTasks?.count ?? 0) < 5 {
+                        self.repository.updateFix(item: self.memoTasks![indexPath.row])
+                    }
+                }
+            }
+            
+            
+            
+            
+            self.memoTasks = self.repository.fetchMemoFilter()
+            self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
         }
-        let imageName = tasks![indexPath.row].memoFix ? "pin.slash.fill" : "pin.fill"
-        fix.image = UIImage(systemName: imageName)
+        
+        if fixedMemoTasks?.isEmpty == true {
+            fix.image = UIImage(systemName: "pin.fill")
+        } else {
+            fix.image = indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+        }
+        
         fix.backgroundColor = .orange
         
         return UISwipeActionsConfiguration(actions: [fix])
@@ -147,5 +192,5 @@ extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         
     }
- 
+    
 }
