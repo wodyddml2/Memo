@@ -13,10 +13,13 @@
 		63BFFEDB28C09B870045D44A /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEDA28C09B870045D44A /* BaseViewController.swift */; };
 		63BFFEDD28C09B8F0045D44A /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEDC28C09B8F0045D44A /* BaseView.swift */; };
 		63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */; };
+		63BFFEE628C09DB20045D44A /* PopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEE528C09DB20045D44A /* PopupView.swift */; };
+		63BFFEE928C09DC80045D44A /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEE828C09DC80045D44A /* WriteView.swift */; };
+		63BFFEEB28C09DED0045D44A /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */; };
+		63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */; };
 		63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520028BF3E70003822BA /* AppDelegate.swift */; };
 		63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520228BF3E70003822BA /* SceneDelegate.swift */; };
 		63E1520528BF3E70003822BA /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520428BF3E70003822BA /* MemoViewController.swift */; };
-		63E1520828BF3E70003822BA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63E1520628BF3E70003822BA /* Main.storyboard */; };
 		63E1520A28BF3E72003822BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63E1520928BF3E72003822BA /* Assets.xcassets */; };
 		63E1520D28BF3E72003822BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63E1520B28BF3E72003822BA /* LaunchScreen.storyboard */; };
 		63E1521628BF4152003822BA /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1521528BF4151003822BA /* WriteViewController.swift */; };
@@ -27,11 +30,14 @@
 		63BFFEDA28C09B870045D44A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63BFFEDC28C09B8F0045D44A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
+		63BFFEE528C09DB20045D44A /* PopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupView.swift; sourceTree = "<group>"; };
+		63BFFEE828C09DC80045D44A /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
+		63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
+		63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		63E151FD28BF3E70003822BA /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E1520028BF3E70003822BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63E1520228BF3E70003822BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		63E1520428BF3E70003822BA /* MemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewController.swift; sourceTree = "<group>"; };
-		63E1520728BF3E70003822BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		63E1520928BF3E72003822BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63E1520C28BF3E72003822BA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63E1520E28BF3E72003822BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -63,6 +69,41 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		63BFFEE028C09D7C0045D44A /* Memo */ = {
+			isa = PBXGroup;
+			children = (
+				63E1520428BF3E70003822BA /* MemoViewController.swift */,
+				63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */,
+			);
+			path = Memo;
+			sourceTree = "<group>";
+		};
+		63BFFEE428C09DA00045D44A /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				63E1521728BF415B003822BA /* PopupViewController.swift */,
+				63BFFEE528C09DB20045D44A /* PopupView.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
+		63BFFEE728C09DB50045D44A /* Write */ = {
+			isa = PBXGroup;
+			children = (
+				63E1521528BF4151003822BA /* WriteViewController.swift */,
+				63BFFEE828C09DC80045D44A /* WriteView.swift */,
+			);
+			path = Write;
+			sourceTree = "<group>";
+		};
+		63BFFEEC28C0A0670045D44A /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		63E151F428BF3E70003822BA = {
 			isa = PBXGroup;
 			children = (
@@ -84,11 +125,11 @@
 			children = (
 				63E1520028BF3E70003822BA /* AppDelegate.swift */,
 				63E1520228BF3E70003822BA /* SceneDelegate.swift */,
+				63BFFEEC28C0A0670045D44A /* Protocol */,
 				63BFFED928C09B700045D44A /* Utility */,
-				63E1520428BF3E70003822BA /* MemoViewController.swift */,
-				63E1521728BF415B003822BA /* PopupViewController.swift */,
-				63E1521528BF4151003822BA /* WriteViewController.swift */,
-				63E1520628BF3E70003822BA /* Main.storyboard */,
+				63BFFEE028C09D7C0045D44A /* Memo */,
+				63BFFEE728C09DB50045D44A /* Write */,
+				63BFFEE428C09DA00045D44A /* Popup */,
 				63E1520928BF3E72003822BA /* Assets.xcassets */,
 				63E1520B28BF3E72003822BA /* LaunchScreen.storyboard */,
 				63E1520E28BF3E72003822BA /* Info.plist */,
@@ -165,7 +206,6 @@
 			files = (
 				63E1520D28BF3E72003822BA /* LaunchScreen.storyboard in Resources */,
 				63E1520A28BF3E72003822BA /* Assets.xcassets in Resources */,
-				63E1520828BF3E70003822BA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,8 +218,12 @@
 			files = (
 				63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */,
 				63E1521828BF415B003822BA /* PopupViewController.swift in Sources */,
+				63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */,
+				63BFFEE628C09DB20045D44A /* PopupView.swift in Sources */,
 				63E1520528BF3E70003822BA /* MemoViewController.swift in Sources */,
+				63BFFEE928C09DC80045D44A /* WriteView.swift in Sources */,
 				63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */,
+				63BFFEEB28C09DED0045D44A /* MemoTableViewCell.swift in Sources */,
 				63E1521628BF4152003822BA /* WriteViewController.swift in Sources */,
 				63BFFEDD28C09B8F0045D44A /* BaseView.swift in Sources */,
 				63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */,
@@ -190,14 +234,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		63E1520628BF3E70003822BA /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				63E1520728BF3E70003822BA /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		63E1520B28BF3E72003822BA /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -335,7 +371,6 @@
 				INFOPLIST_FILE = Memo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -365,7 +400,6 @@
 				INFOPLIST_FILE = Memo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
