@@ -113,11 +113,11 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         formatter.locale = Locale(identifier: "ko-KR")
         
         if Calendar.current.isDateInToday(date) {
-            formatter.dateFormat = "a HH:mm"
+            formatter.dateFormat = "a hh:mm"
         } else if Calendar.current.isDateInWeekend(date) {
             formatter.dateFormat = "EEEE"
         } else {
-            formatter.dateFormat = "yyyy.MM.dd a HH:mm"
+            formatter.dateFormat = "yyyy.MM.dd a hh:mm"
         }
         
         return formatter.string(from: date)
@@ -187,23 +187,24 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
           
-            
-            if self.fixedMemoTasks?.isEmpty == true {
-                self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-            } else {
-                if indexPath.section == 0 {
-                    self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
-                } else {
-                    
+            self.showAlertHandlingMessage(title: "메모를 삭제 하시겠습니까?") { _ in
+                if self.fixedMemoTasks?.isEmpty == true {
                     self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-                    
+                } else {
+                    if indexPath.section == 0 {
+                        self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
+                    } else {
+                        
+                        self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+                        
+                    }
                 }
+                self.memoTasks = self.repository.fetchMemoFilter()
+                self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
             }
             
             
             
-            self.memoTasks = self.repository.fetchMemoFilter()
-            self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
         }
         
         delete.image = UIImage(systemName: "trash.fill")
@@ -223,6 +224,8 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     if (self.fixedMemoTasks?.count ?? 0) < 5 {
                         self.repository.updateFix(item: self.memoTasks![indexPath.row])
+                    } else {
+                        self.showAlertMessage(title: "메모 고정은 5개가 최대입니다.")
                     }
                 }
             }
