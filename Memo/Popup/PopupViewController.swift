@@ -9,12 +9,24 @@ import UIKit
 
 class PopupViewController: BaseViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-       
+    var mainView = PopupView()
+    
+    override func loadView() {
+        view = mainView
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        mainView.layer.backgroundColor = UIColor.black.cgColor.copy(alpha: 0.5)
+        mainView.okButton.addTarget(self, action: #selector(okButtonClicked), for: .touchUpInside)
+    }
+    
+    @objc func okButtonClicked() {
+        
+        UserDefaults.standard.set(true, forKey: "pop")
+        self.dismiss(animated: true)
+    }
 
 
 }

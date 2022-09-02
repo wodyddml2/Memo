@@ -39,7 +39,6 @@ class MemoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
         
     }
@@ -47,6 +46,16 @@ class MemoViewController: BaseViewController {
         super.viewWillAppear(animated)
         memoTasks = repository.fetchMemoFilter()
         fixedMemoTasks = repository.fetchFixedMemoFilter()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if UserDefaults.standard.bool(forKey: "pop") == false {
+            let vc = PopupViewController()
+            vc.modalPresentationStyle = .overFullScreen
+            
+            present(vc, animated: true)
+        }
     }
     override func configureUI() {
         view.addSubview(memoTableView)
