@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6316048728C20AA600B6C64C /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6316048628C20AA600B6C64C /* SearchViewController.swift */; };
 		63BFFED328C09B120045D44A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED228C09B120045D44A /* SnapKit */; };
 		63BFFED628C09B3B0045D44A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED528C09B3B0045D44A /* Realm */; };
 		63BFFED828C09B3B0045D44A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED728C09B3B0045D44A /* RealmSwift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6316048628C20AA600B6C64C /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		63BFFEDA28C09B870045D44A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63BFFEDC28C09B8F0045D44A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -63,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6316048528C20A8900B6C64C /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6316048628C20AA600B6C64C /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 		63BFFED928C09B700045D44A /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +154,7 @@
 				63BFFEE028C09D7C0045D44A /* Memo */,
 				63BFFEE728C09DB50045D44A /* Write */,
 				63BFFEE428C09DA00045D44A /* Popup */,
+				6316048528C20A8900B6C64C /* Search */,
 				63E1520928BF3E72003822BA /* Assets.xcassets */,
 				63E1520B28BF3E72003822BA /* LaunchScreen.storyboard */,
 				63E1520E28BF3E72003822BA /* Info.plist */,
@@ -230,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6316048728C20AA600B6C64C /* SearchViewController.swift in Sources */,
 				63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */,
 				63E1521828BF415B003822BA /* PopupViewController.swift in Sources */,
 				63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */,

@@ -5,16 +5,17 @@ import RealmSwift
 
 class MemoViewController: BaseViewController {
     
-    let repository = UserMemoRepository()
+    private let repository = UserMemoRepository()
     
-    var memoTasks: Results<UserMemo>? {
+    
+    private var memoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
             navigationItem.title = "\(countFormat())개의 메모"
         }
     }
     
-    var fixedMemoTasks: Results<UserMemo>? {
+    private var fixedMemoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
             navigationItem.title = "\(countFormat())개의 메모"
@@ -31,7 +32,7 @@ class MemoViewController: BaseViewController {
     }()
     
     private lazy var memoSearchController: UISearchController = {
-        let search = UISearchController(searchResultsController: nil)
+        let search = UISearchController(searchResultsController: SearchViewController())
         search.searchBar.delegate = self
         search.searchResultsUpdater = self
         return search
@@ -208,6 +209,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                         
                     }
                 }
+
                 self.memoTasks = self.repository.fetchMemoFilter()
                 self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
             }
@@ -261,7 +263,8 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
-        
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        repository.fetch().filter("memoTitle == %@ || memoSubTitle == %@", text, text)
     }
     
 }
