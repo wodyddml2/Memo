@@ -15,6 +15,8 @@ class WriteViewController: BaseViewController {
     
     let repository = UserMemoRepository()
     
+    var memoTasks: UserMemo?
+
     override func loadView() {
         view = mainView
     }
@@ -22,13 +24,17 @@ class WriteViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+    }
+    override func configureUI() {
         let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonClicked))
         let okButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(okButtonClicked))
         
         navigationItem.rightBarButtonItems = [okButton, shareButton]
+        navigationController?.navigationBar.tintColor = .orange
         
+        mainView.memoTextView.delegate = self
     }
-    
     @objc func shareButtonClicked() {
       
         
@@ -46,4 +52,8 @@ class WriteViewController: BaseViewController {
         }
         navigationController?.popViewController(animated: true)
     }
+}
+
+extension WriteViewController: UITextViewDelegate {
+    
 }

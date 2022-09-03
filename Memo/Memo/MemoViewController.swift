@@ -153,7 +153,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         
         if Calendar.current.isDateInToday(date) {
             formatter.dateFormat = "a hh:mm"
-        } else if Calendar.current.isDateInWeekend(date) {
+        } else if Calendar.current.isDateInWeekend(date) { // 안뜸
             formatter.dateFormat = "EEEE"
         } else {
             formatter.dateFormat = "yyyy.MM.dd a hh:mm"
@@ -171,7 +171,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 //        let attributedStr = NSMutableAttributedString(string: cell.memoTitleLabel.text ?? "")
 //        attributedStr.addAttribute(.foregroundColor, value: UIColor.orange, range: ((cell.memoTitleLabel.text ?? "") as NSString).range(of: memoSearchController.searchBar.text ?? ""))
-    
+//
         
         
         if isFilter {
@@ -180,7 +180,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
 //            cell.memoTitleLabel.attributedText = attributedStr
             
-            cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
+            
             cell.memoDateLabel.text = dateFormatter(date: tasks?[indexPath.row].memoDate ?? Date())
             cell.memoSubTitleLabel.text = tasks?[indexPath.row].memoSubTitle
             
@@ -211,6 +211,24 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = WriteViewController()
+        if memoSearchController.isActive {
+            navigationItem.backButtonTitle = "검색"
+            vc.memoTasks = tasks?[indexPath.row]
+        } else {
+            navigationItem.backButtonTitle = "메모"
+            if fixedMemoTasks?.isEmpty == true {
+                vc.memoTasks = memoTasks?[indexPath.row]
+            } else {
+                vc.memoTasks = indexPath.section == 0 ? fixedMemoTasks?[indexPath.row] : memoTasks?[indexPath.row]
+            }
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
