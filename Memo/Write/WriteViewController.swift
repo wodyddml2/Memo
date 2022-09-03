@@ -29,7 +29,6 @@ class WriteViewController: BaseViewController {
         memoTitle = memoTasks?.memoTitle
         memoSubTitle = memoTasks?.memoSubTitle
        
-        print(memoSubTitle)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,6 +84,14 @@ class WriteViewController: BaseViewController {
     }
     @objc func shareButtonClicked() {
       
+        guard let memo = mainView.memoTextView.text else {
+            return
+        }
+        let vc = UIActivityViewController(activityItems: [memo], applicationActivities: nil)
+        vc.excludedActivityTypes = [.mail, .message, .postToTwitter, .airDrop]
+           
+           self.present(vc, animated: true)
+
         
     }
     
