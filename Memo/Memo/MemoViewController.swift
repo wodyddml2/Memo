@@ -153,7 +153,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         
         if Calendar.current.isDateInToday(date) {
             formatter.dateFormat = "a hh:mm"
-        } else if Calendar.current.isDateInWeekend(date) { // 안뜸
+        } else if Calendar.current.isDateInWeekend(date) {
             formatter.dateFormat = "EEEE"
         } else {
             formatter.dateFormat = "yyyy.MM.dd a hh:mm"
@@ -191,6 +191,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
                 cell.memoDateLabel.text = dateFormatter(date: memoTasks?[indexPath.row].memoDate ?? Date())
                 cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
+                
             } else {
                 if indexPath.section == 0 {
                     cell.memoTitleLabel.text = fixedMemoTasks?[indexPath.row].memoTitle
@@ -205,6 +206,10 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         }
+        if cell.memoSubTitleLabel.text?.count != 0 {
+            cell.memoSubTitleLabel.text?.removeFirst(1)
+        }
+        
         
         
        

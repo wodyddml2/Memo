@@ -28,6 +28,8 @@ class WriteViewController: BaseViewController {
         super.viewDidLoad()
         memoTitle = memoTasks?.memoTitle
         memoSubTitle = memoTasks?.memoSubTitle
+       
+        print(memoSubTitle)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
