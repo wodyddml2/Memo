@@ -12,7 +12,7 @@ import SnapKit
 class WriteView: BaseView {
     let memoTextView: UITextView = {
        let view = UITextView()
-        view.becomeFirstResponder()
+        
         return view
     }()
     override init(frame: CGRect) {

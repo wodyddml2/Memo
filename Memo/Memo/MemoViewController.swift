@@ -92,7 +92,7 @@ class MemoViewController: BaseViewController {
         toolbarItems = [flexSpace, writeButton]
         
         navigationController?.toolbar.tintColor = .orange
-        
+        navigationItem.backButtonTitle = "메모"
         navigationController?.isToolbarHidden = false
         
     }
@@ -219,7 +219,6 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             navigationItem.backButtonTitle = "검색"
             vc.memoTasks = tasks?[indexPath.row]
         } else {
-            navigationItem.backButtonTitle = "메모"
             if fixedMemoTasks?.isEmpty == true {
                 vc.memoTasks = memoTasks?[indexPath.row]
             } else {

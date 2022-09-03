@@ -17,6 +17,9 @@ class WriteViewController: BaseViewController {
     
     var memoTasks: UserMemo?
 
+    let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: WriteViewController.self, action: #selector(shareButtonClicked))
+    let okButton = UIBarButtonItem(title: "완료", style: .plain, target: WriteViewController.self, action: #selector(okButtonClicked))
+    
     override func loadView() {
         view = mainView
     }
@@ -27,13 +30,17 @@ class WriteViewController: BaseViewController {
         
     }
     override func configureUI() {
-        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonClicked))
-        let okButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(okButtonClicked))
         
-        navigationItem.rightBarButtonItems = [okButton, shareButton]
+        
         navigationController?.navigationBar.tintColor = .orange
         
         mainView.memoTextView.delegate = self
+        
+        if memoTasks != nil {
+            mainView.memoTextView.becomeFirstResponder()
+            navigationItem.rightBarButtonItems = [okButton, shareButton]
+   
+        }
     }
     @objc func shareButtonClicked() {
       
@@ -55,5 +62,9 @@ class WriteViewController: BaseViewController {
 }
 
 extension WriteViewController: UITextViewDelegate {
-    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if memoTasks == nil {
+            navigationItem.rightBarButtonItems = [okButton, shareButton]
+        }
+    }
 }
