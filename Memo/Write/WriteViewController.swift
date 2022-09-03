@@ -17,6 +17,8 @@ class WriteViewController: BaseViewController {
     
     var memoTasks: UserMemo?
 
+    var memoTitle: String?
+    var memoSubTitle: String?
     
     override func loadView() {
         view = mainView
@@ -24,27 +26,42 @@ class WriteViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        
+        memoTitle = memoTasks?.memoTitle
+        memoSubTitle = memoTasks?.memoSubTitle
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if mainView.memoTextView.text != "" {
-                   if memoTasks != nil {
-                   let task = UserMemo(memoTitle: mainView.memoTextView.text ?? "s", memoDate: Date(), memoSubTitle: mainView.memoTextView.text ?? "", memoFix: false)
-                   
-                   try! repository.localRealm.write {
-                       self.repository.localRealm.add(task)
-                   }
-                   }
-               } else {
-                   if memoTasks != nil {
-                       
-                       repository.deleteMemo(item: memoTasks!)
-                       
-                   }
-               }
+            if memoTasks != nil {
+                
+                do {
+                    try repository.localRealm.write {
+                        memoTasks?.memoDate = Date()
+                        memoTasks?.memoTitle = memoTitle ?? ""
+                        memoTasks?.memoSubTitle = memoSubTitle ?? ""
+                      
+                    }
+                } catch let error{
+                    print(error)
+                }
+                
+               
+            } else {
+               
+                let task = UserMemo(memoTitle: memoTitle ?? "", memoDate: Date(), memoSubTitle: memoSubTitle ?? "", memoFix: false)
+                
+                try! repository.localRealm.write {
+                    self.repository.localRealm.add(task)
+                }
+            }
+        } else {
+            if memoTasks != nil {
+                
+                repository.deleteMemo(item: memoTasks!)
+                
+            }
+        }
         
     }
     override func configureUI() {
@@ -54,6 +71,7 @@ class WriteViewController: BaseViewController {
         navigationController?.navigationBar.tintColor = .orange
         
         mainView.memoTextView.delegate = self
+        mainView.memoTextView.text = "\(memoTasks?.memoTitle ?? "")\(memoTasks?.memoSubTitle ?? "")"
         
         if memoTasks != nil {
             mainView.memoTextView.becomeFirstResponder()
@@ -61,6 +79,7 @@ class WriteViewController: BaseViewController {
             navigationItem.rightBarButtonItems = [okButton, shareButton]
    
         }
+        
     }
     @objc func shareButtonClicked() {
       
@@ -81,5 +100,15 @@ extension WriteViewController: UITextViewDelegate {
             navigationItem.rightBarButtonItems = [okButton, shareButton]
         }
     }
+
     
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.contains("\n") {
+            memoSubTitle = textView.text
+            memoSubTitle?.removeFirst(memoTitle?.count ?? 0)
+        } else {
+            memoTitle = textView.text
+            
+        }
+    }
 }
