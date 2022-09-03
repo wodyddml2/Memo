@@ -270,7 +270,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             self.showAlertHandlingMessage(title: "메모를 삭제 하시겠습니까?") { _ in
                 
                 if self.isFilter {
-                    self.repository.updateFix(item: self.tasks![indexPath.row])
+                    self.repository.deleteMemo(item: self.tasks![indexPath.row])
                 } else {
                     if self.fixedMemoTasks?.isEmpty == true {
                         self.repository.deleteMemo(item: self.memoTasks![indexPath.row])

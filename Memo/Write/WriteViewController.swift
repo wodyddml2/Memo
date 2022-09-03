@@ -17,8 +17,6 @@ class WriteViewController: BaseViewController {
     
     var memoTasks: UserMemo?
 
-    let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: WriteViewController.self, action: #selector(shareButtonClicked))
-    let okButton = UIBarButtonItem(title: "완료", style: .plain, target: WriteViewController.self, action: #selector(okButtonClicked))
     
     override func loadView() {
         view = mainView
@@ -29,8 +27,29 @@ class WriteViewController: BaseViewController {
 
         
     }
-    override func configureUI() {
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if mainView.memoTextView.text != "" {
+                   if memoTasks != nil {
+                   let task = UserMemo(memoTitle: mainView.memoTextView.text ?? "s", memoDate: Date(), memoSubTitle: mainView.memoTextView.text ?? "", memoFix: false)
+                   
+                   try! repository.localRealm.write {
+                       self.repository.localRealm.add(task)
+                   }
+                   }
+               } else {
+                   if memoTasks != nil {
+                       
+                       repository.deleteMemo(item: memoTasks!)
+                       
+                   }
+               }
         
+    }
+    override func configureUI() {
+        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonClicked))
+        let okButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(okButtonClicked))
         
         navigationController?.navigationBar.tintColor = .orange
         
@@ -38,6 +57,7 @@ class WriteViewController: BaseViewController {
         
         if memoTasks != nil {
             mainView.memoTextView.becomeFirstResponder()
+           
             navigationItem.rightBarButtonItems = [okButton, shareButton]
    
         }
@@ -48,15 +68,7 @@ class WriteViewController: BaseViewController {
     }
     
     @objc func okButtonClicked() {
-        let task = UserMemo(memoTitle: mainView.memoTextView.text ?? "s", memoDate: Date(), memoSubTitle: "Ss", memoFix: false)
-        
-        do {
-            try! repository.localRealm.write {
-                self.repository.localRealm.add(task)
-            }
-        } catch let error {
-            print(error)
-        }
+       
         navigationController?.popViewController(animated: true)
     }
 }
@@ -64,7 +76,10 @@ class WriteViewController: BaseViewController {
 extension WriteViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if memoTasks == nil {
+            let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareButtonClicked))
+            let okButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(okButtonClicked))
             navigationItem.rightBarButtonItems = [okButton, shareButton]
         }
     }
+    
 }
