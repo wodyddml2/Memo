@@ -22,7 +22,12 @@ class MemoViewController: BaseViewController {
         }
     }
     
-    var tasks: Results<UserMemo>?
+    var tasks: Results<UserMemo>? {
+        didSet {
+            memoTableView.reloadData()
+            navigationItem.title = "\(countFormat())개의 메모"
+        }
+    }
     
     var isFilter: Bool {
         let searchContoller = navigationItem.searchController
@@ -32,6 +37,7 @@ class MemoViewController: BaseViewController {
         return isActive && isSearchBarHasText
     }
 
+    
    
     
     private lazy var memoTableView: UITableView = {
@@ -163,11 +169,22 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        let attributedStr = NSMutableAttributedString(string: cell.memoTitleLabel.text ?? "")
+//        attributedStr.addAttribute(.foregroundColor, value: UIColor.orange, range: ((cell.memoTitleLabel.text ?? "") as NSString).range(of: memoSearchController.searchBar.text ?? ""))
+    
+        
         
         if isFilter {
+            
+            
+            cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
+//            cell.memoTitleLabel.attributedText = attributedStr
+            
             cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
             cell.memoDateLabel.text = dateFormatter(date: tasks?[indexPath.row].memoDate ?? Date())
             cell.memoSubTitleLabel.text = tasks?[indexPath.row].memoSubTitle
+            
+            
         } else {
             // 매개변수에 클로저를 넣은 함수로 중복코드 없애자
             if fixedMemoTasks?.isEmpty == true {
@@ -234,18 +251,22 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
           
             self.showAlertHandlingMessage(title: "메모를 삭제 하시겠습니까?") { _ in
-                if self.fixedMemoTasks?.isEmpty == true {
-                    self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+                
+                if self.isFilter {
+                    self.repository.updateFix(item: self.tasks![indexPath.row])
                 } else {
-                    if indexPath.section == 0 {
-                        self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
-                    } else {
-                        
+                    if self.fixedMemoTasks?.isEmpty == true {
                         self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-                        
+                    } else {
+                        if indexPath.section == 0 {
+                            self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
+                        } else {
+                            
+                            self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
+                            
+                        }
                     }
                 }
-
                 self.memoTasks = self.repository.fetchMemoFilter()
                 self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
                 
@@ -262,23 +283,23 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let fix = UIContextualAction(style: .normal, title: "") { action, view, completionHandler in
-            
-            
-            if self.fixedMemoTasks?.isEmpty == true {
-                self.repository.updateFix(item: self.memoTasks![indexPath.row])
+            if self.isFilter {
+                self.repository.updateFix(item: self.tasks![indexPath.row])
             } else {
-                if indexPath.section == 0 {
-                    self.repository.updateFix(item: self.fixedMemoTasks![indexPath.row])
+                if self.fixedMemoTasks?.isEmpty == true {
+                    self.repository.updateFix(item: self.memoTasks![indexPath.row])
                 } else {
-                    if (self.fixedMemoTasks?.count ?? 0) < 5 {
-                        self.repository.updateFix(item: self.memoTasks![indexPath.row])
+                    if indexPath.section == 0 {
+                        self.repository.updateFix(item: self.fixedMemoTasks![indexPath.row])
                     } else {
-                        self.showAlertMessage(title: "메모 고정은 5개가 최대입니다.")
+                        if (self.fixedMemoTasks?.count ?? 0) < 5 {
+                            self.repository.updateFix(item: self.memoTasks![indexPath.row])
+                        } else {
+                            self.showAlertMessage(title: "메모 고정은 5개가 최대입니다.")
+                        }
                     }
                 }
             }
-            
-            
             
             
             self.memoTasks = self.repository.fetchMemoFilter()
@@ -306,9 +327,13 @@ extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
             $0.memoTitle.contains(text, options: .caseInsensitive) || $0.memoSubTitle.contains(text, options: .caseInsensitive)
         }
         
-//        print(tasks)
 
         memoTableView.reloadData()
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        view.endEditing(true)
+        return true
     }
     
 }
