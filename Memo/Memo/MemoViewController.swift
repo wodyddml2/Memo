@@ -45,7 +45,7 @@ class MemoViewController: BaseViewController {
         view.delegate = self
         view.dataSource = self
         view.register(MemoTableViewCell.self, forCellReuseIdentifier: MemoTableViewCell.reuseableIdentifier)
-        
+        view.keyboardDismissMode = .onDrag
         return view
     }()
     
@@ -316,7 +316,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         
         return UISwipeActionsConfiguration(actions: [fix])
     }
-    
+
 }
 
 extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
@@ -335,6 +335,7 @@ extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
         view.endEditing(true)
         return true
     }
+ 
     
 }
 
