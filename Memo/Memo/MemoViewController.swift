@@ -169,20 +169,46 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//        let attributedStr = NSMutableAttributedString(string: cell.memoTitleLabel.text ?? "")
-//        attributedStr.addAttribute(.foregroundColor, value: UIColor.orange, range: ((cell.memoTitleLabel.text ?? "") as NSString).range(of: memoSearchController.searchBar.text ?? ""))
-//
         
+//
+
         
         if isFilter {
+            let titles = tasks?[indexPath.row].memoTitle ?? ""
+            var subTitles = tasks?[indexPath.row].memoSubTitle ?? ""
+            if subTitles.count != 0 {
+                subTitles.removeFirst(1)
+            }
             
+            let attributedTitle = NSMutableAttributedString(string: titles )
+            let attributedSubTitle = NSMutableAttributedString(string: subTitles)
             
-            cell.memoTitleLabel.text = tasks?[indexPath.row].memoTitle
-//            cell.memoTitleLabel.attributedText = attributedStr
+            if let textRange = titles.range(of: memoSearchController.searchBar.text ?? "", options: .caseInsensitive) {
+                // lowerbound: 찾고자하는 값의 처음 나오는 인덱스
+                let textIndex = titles.distance(from: titles.startIndex, to: textRange.lowerBound)
+                // NSRange: NSString의 서브스트링 영역을 표시하기 위해 정의된 구조체
+                // location: 시작점 length: range의 길이
+                attributedTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: NSRange(location: textIndex, length: memoSearchController.searchBar.text?.count ?? 0))
+                cell.memoTitleLabel.attributedText = attributedTitle
+                print(attributedTitle)
+            } else {
+                cell.memoTitleLabel.text = titles
+            }
+            
+            if let textRange = subTitles.range(of: memoSearchController.searchBar.text ?? "" , options: .caseInsensitive) {
+                let textIndex = subTitles.distance(from: subTitles.startIndex, to: textRange.lowerBound)
+                attributedSubTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: NSRange(location: textIndex, length: memoSearchController.searchBar.text?.count ?? 0))
+                cell.memoSubTitleLabel.attributedText = attributedSubTitle
+            } else {
+                cell.memoSubTitleLabel.text = subTitles
+            }
+            
+
             
             
             cell.memoDateLabel.text = dateFormatter(date: tasks?[indexPath.row].memoDate ?? Date())
-            cell.memoSubTitleLabel.text = tasks?[indexPath.row].memoSubTitle
+          
+            
             
             
         } else {
@@ -204,15 +230,11 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
 
                 }
             }
-            
+            if cell.memoSubTitleLabel.text?.count != 0 {
+                cell.memoSubTitleLabel.text?.removeFirst(1)
+            }
         }
-        if cell.memoSubTitleLabel.text?.count != 0 {
-            cell.memoSubTitleLabel.text?.removeFirst(1)
-        }
         
-        
-        
-       
         
         return cell
     }
@@ -348,9 +370,7 @@ extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
         tasks = repository.fetch().where {
             $0.memoTitle.contains(text, options: .caseInsensitive) || $0.memoSubTitle.contains(text, options: .caseInsensitive)
         }
-        
 
-        memoTableView.reloadData()
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
