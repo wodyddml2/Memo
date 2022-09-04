@@ -53,6 +53,7 @@ class MemoViewController: BaseViewController {
         let search = UISearchController(searchResultsController: nil)
         search.searchBar.delegate = self
         search.searchResultsUpdater = self
+        search.searchBar.setValue("취소", forKey: "cancelButtonText")
         return search
     }()
     
@@ -92,9 +93,10 @@ class MemoViewController: BaseViewController {
         toolbarItems = [flexSpace, writeButton]
         
         navigationController?.toolbar.tintColor = .orange
+        navigationController?.navigationBar.tintColor = .orange
         navigationItem.backButtonTitle = "메모"
         navigationController?.isToolbarHidden = false
-        
+        navigationController?.navigationBar.backgroundColor = .systemGray6
     }
     
     @objc func writeButtonClicked() {
