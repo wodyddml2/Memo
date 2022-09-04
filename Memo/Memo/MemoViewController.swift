@@ -11,25 +11,25 @@ class MemoViewController: BaseViewController {
     private var memoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
-            navigationItem.title = "\(countFormat())개의 메모"
+            navigationItem.title = "\(titleCountFormat())개의 메모"
         }
     }
     
     private var fixedMemoTasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
-            navigationItem.title = "\(countFormat())개의 메모"
+            navigationItem.title = "\(titleCountFormat())개의 메모"
         }
     }
     
     var tasks: Results<UserMemo>? {
         didSet {
             memoTableView.reloadData()
-            navigationItem.title = "\(countFormat())개의 메모"
+            navigationItem.title = "\(titleCountFormat())개의 메모"
         }
     }
     
-    var isFilter: Bool {
+    private var isFilter: Bool {
         let searchContoller = navigationItem.searchController
         let isActive = searchContoller?.isActive ?? false
         let isSearchBarHasText = searchContoller?.searchBar.text?.isEmpty == false
@@ -38,7 +38,6 @@ class MemoViewController: BaseViewController {
     }
 
     
-   
     
     private lazy var memoTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
@@ -59,17 +58,17 @@ class MemoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first)
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         memoTasks = repository.fetchMemoFilter()
         fixedMemoTasks = repository.fetchFixedMemoFilter()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if UserDefaults.standard.bool(forKey: "pop") == false {
             let vc = PopupViewController()
             vc.modalPresentationStyle = .overFullScreen
@@ -77,39 +76,16 @@ class MemoViewController: BaseViewController {
             present(vc, animated: true)
         }
     }
+    
     override func configureUI() {
         view.addSubview(memoTableView)
         
         navigationItem.searchController = memoSearchController
         memoSearchController.obscuresBackgroundDuringPresentation = false
         
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let writeButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(writeButtonClicked))
-        
-        toolbarItems = [flexSpace, writeButton]
-        
-        navigationController?.toolbar.tintColor = .orange
-        navigationController?.navigationBar.tintColor = .orange
-        navigationItem.backButtonTitle = "메모"
-        navigationController?.isToolbarHidden = false
-        navigationController?.navigationBar.backgroundColor = .systemGray6
+        navigationSetting()
+ 
     }
-    
-    @objc func writeButtonClicked() {
-        let vc = WriteViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func countFormat() -> String {
-        let numberFormat = NumberFormatter()
-        numberFormat.numberStyle = .decimal
-        return numberFormat.string(for: (memoTasks?.count ?? 0) + (fixedMemoTasks?.count ?? 0)) ?? "0"
-    }
-    
     override func setConstraints() {
         memoTableView.snp.makeConstraints { make in
             make.top.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -117,10 +93,36 @@ class MemoViewController: BaseViewController {
             make.leading.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    private func navigationSetting() {
+        navigationController?.navigationBar.backgroundColor = .systemGray6
+        navigationController?.navigationBar.tintColor = .orange
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+       
+        navigationController?.isToolbarHidden = false
+        navigationController?.toolbar.tintColor = .orange
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let writeButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(writeButtonClicked))
+        toolbarItems = [flexSpace, writeButton]
+        
+        navigationItem.backButtonTitle = "메모"
+    }
     
+    @objc func writeButtonClicked() {
+        let vc = WriteViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func titleCountFormat() -> String {
+        let numberFormat = NumberFormatter()
+        numberFormat.numberStyle = .decimal
+        return numberFormat.string(for: (memoTasks?.count ?? 0) + (fixedMemoTasks?.count ?? 0)) ?? "0"
+    }
 }
 
 extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         if isFilter {
             return 1
@@ -146,7 +148,6 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-       
     }
     
     func dateFormatter(date: Date) -> String {
@@ -164,17 +165,12 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         return formatter.string(from: date)
     }
     
-  
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseableIdentifier, for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
         }
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
-//
-
-        
+           
         if isFilter {
             let titles = tasks?[indexPath.row].memoTitle ?? ""
             var subTitles = tasks?[indexPath.row].memoSubTitle ?? ""
@@ -204,17 +200,10 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             } else {
                 cell.memoSubTitleLabel.text = subTitles
             }
-            
-
-            
-            
+  
             cell.memoDateLabel.text = dateFormatter(date: tasks?[indexPath.row].memoDate ?? Date())
-          
-            
-            
-            
+       
         } else {
-            // 매개변수에 클로저를 넣은 함수로 중복코드 없애자
             if fixedMemoTasks?.isEmpty == true {
                 cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
                 cell.memoDateLabel.text = dateFormatter(date: memoTasks?[indexPath.row].memoDate ?? Date())
@@ -236,14 +225,13 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.memoSubTitleLabel.text?.removeFirst(1)
             }
         }
-        
-        
+  
         return cell
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = WriteViewController()
+        
         if memoSearchController.isActive {
             navigationItem.backButtonTitle = "검색"
             vc.memoTasks = tasks?[indexPath.row]
@@ -254,12 +242,17 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 vc.memoTasks = indexPath.section == 0 ? fixedMemoTasks?[indexPath.row] : memoTasks?[indexPath.row]
             }
         }
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 60
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -283,15 +276,10 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-       
-        
         header.addSubview(label)
         return header
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 60
-    }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
@@ -315,11 +303,8 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 self.memoTasks = self.repository.fetchMemoFilter()
                 self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
-                
             }
-            
-            
-            
+  
         }
         
         delete.image = UIImage(systemName: "trash.fill")
@@ -379,8 +364,6 @@ extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
         view.endEditing(true)
         return true
     }
- 
-    
 }
 
 

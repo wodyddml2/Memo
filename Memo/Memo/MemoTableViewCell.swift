@@ -8,11 +8,10 @@
 import UIKit
 
 class MemoTableViewCell: BaseTableViewCell {
-
+    
     let memoTitleLabel: UILabel = {
         let view = UILabel()
         view.font = .boldSystemFont(ofSize: 20)
-        
         return view
     }()
     let memoDateLabel: UILabel = {

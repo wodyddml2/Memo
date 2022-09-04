@@ -7,8 +7,8 @@
 
 import UIKit
 
-class PopupViewController: BaseViewController {
-
+final class PopupViewController: BaseViewController {
+    
     var mainView = PopupView()
     
     override func loadView() {
@@ -27,6 +27,5 @@ class PopupViewController: BaseViewController {
         UserDefaults.standard.set(true, forKey: "pop")
         self.dismiss(animated: true)
     }
-
-
+   
 }

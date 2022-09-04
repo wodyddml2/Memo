@@ -11,10 +11,10 @@ import SnapKit
 
 class WriteView: BaseView {
     let memoTextView: UITextView = {
-       let view = UITextView()
-        
+        let view = UITextView()
         return view
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

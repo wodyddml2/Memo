@@ -15,6 +15,7 @@ class PopupView: BaseView {
         view.layer.cornerRadius = 10
         return view
     }()
+    
     let okButtonView: UIView = {
         let view = UIView()
         view.backgroundColor = .orange
@@ -36,7 +37,7 @@ class PopupView: BaseView {
     }()
     
     let firstOnboardingLabel: UILabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = .boldSystemFont(ofSize: 22)
         view.textColor = .white
         view.text =
@@ -48,7 +49,7 @@ class PopupView: BaseView {
         return view
     }()
     let secondOnboardingLabel: UILabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = .boldSystemFont(ofSize: 22)
         view.textColor = .white
         view.text =
@@ -59,7 +60,7 @@ class PopupView: BaseView {
         view.numberOfLines = 0
         return view
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -87,6 +88,7 @@ class PopupView: BaseView {
             make.leading.equalTo(okButtonView.snp.leading)
             make.top.equalTo(30)
         }
+        
         secondOnboardingLabel.snp.makeConstraints { make in
             make.leading.equalTo(firstOnboardingLabel.snp.leading)
             make.top.equalTo(firstOnboardingLabel.snp.bottom).offset(30)
@@ -98,9 +100,11 @@ class PopupView: BaseView {
             make.centerX.equalTo(popUpbackgroundView)
             make.bottom.equalTo(popUpbackgroundView.snp.bottom).offset(-20)
         }
+        
         okButtonLabel.snp.makeConstraints { make in
             make.center.equalTo(okButtonView)
         }
+        
         okButton.snp.makeConstraints { make in
             make.top.bottom.leading.trailing.equalTo(okButtonView)
         }
