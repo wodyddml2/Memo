@@ -172,13 +172,19 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
            
         if isFilter {
+            cell.memoTitleLabel.attributedText = nil
+            cell.memoSubTitleLabel.attributedText = nil
+            cell.memoTitleLabel.text = nil
+            cell.memoSubTitleLabel.text = nil
+            
             let titles = tasks?[indexPath.row].memoTitle ?? ""
             var subTitles = tasks?[indexPath.row].memoSubTitle ?? ""
+            
             if subTitles.count != 0 {
                 subTitles.removeFirst(1)
             }
             
-            let attributedTitle = NSMutableAttributedString(string: titles )
+            let attributedTitle = NSMutableAttributedString(string: titles)
             let attributedSubTitle = NSMutableAttributedString(string: subTitles)
             
             if let textRange = titles.range(of: memoSearchController.searchBar.text ?? "", options: .caseInsensitive) {
@@ -188,7 +194,6 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 // location: 시작점 length: range의 길이
                 attributedTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: NSRange(location: textIndex, length: memoSearchController.searchBar.text?.count ?? 0))
                 cell.memoTitleLabel.attributedText = attributedTitle
-                print(attributedTitle)
             } else {
                 cell.memoTitleLabel.text = titles
             }
@@ -204,6 +209,12 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.memoDateLabel.text = dateFormatter(date: tasks?[indexPath.row].memoDate ?? Date())
        
         } else {
+            
+            cell.memoTitleLabel.attributedText = nil
+            cell.memoSubTitleLabel.attributedText = nil
+            cell.memoTitleLabel.text = nil
+            cell.memoSubTitleLabel.text = nil
+            
             if fixedMemoTasks?.isEmpty == true {
                 cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
                 cell.memoDateLabel.text = dateFormatter(date: memoTasks?[indexPath.row].memoDate ?? Date())
