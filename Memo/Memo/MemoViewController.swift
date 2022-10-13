@@ -58,6 +58,17 @@ class MemoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // 1. fileURL
+        print("FileURL: \(repository.localRealm.configuration.fileURL!)")
+        
+        // 2. schema version
+        do {
+            let version = try schemaVersionAtURL(repository.localRealm.configuration.fileURL!)
+            print("Schema Version: \(version)")
+        } catch {
+            print(error)
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

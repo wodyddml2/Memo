@@ -7,6 +7,8 @@
 
 import UIKit
 
+import RealmSwift
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        aboutRealmMigration()
         return true
     }
 
@@ -34,3 +37,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate {
+    func aboutRealmMigration() {
+        let config = Realm.Configuration(schemaVersion: 7) { migration, oldSchemaVersion in
+            if oldSchemaVersion < 1 {
+                migration.enumerateObjects(ofType: UserMemo.className()) { oldObject, newObject in
+                    newObject!["memoDate"] = "\(oldObject!["memoDate"] ?? String.self)"
+                }
+            }
+            
+            if oldSchemaVersion < 2 { }
+            
+            if oldSchemaVersion < 3 {
+                migration.enumerateObjects(ofType: UserMemo.className()) { oldObject, newObject in
+                    guard let new = newObject else {return}
+                    
+                    new["memoCount"] = 25
+                }
+            }
+            
+            if oldSchemaVersion < 4 {
+                migration.renameProperty(onType: UserMemo.className(), from: "memoCount", to: "memoCurrent")
+            }
+            
+            if oldSchemaVersion < 5 {
+                migration.enumerateObjects(ofType: UserMemo.className()) { oldObject, newObject in
+                    guard let new = newObject else {return}
+                    guard let old = oldObject else {return}
+                    
+                    new["memoCurrent"] = old["memoCurrent"] ?? 1
+                }
+            }
+            
+            if oldSchemaVersion < 6 {
+                migration.enumerateObjects(ofType: UserMemo.className()) { oldObject, newObject in
+                    guard let new = newObject else {return}
+                    guard let old = oldObject else {return}
+                    
+                    new["memoDescription"] = "\(old["memoTitle"]!), \(old["memoCurrent"]!)"
+                }
+            }
+            
+            if oldSchemaVersion < 7 { }
+        }
+        
+        Realm.Configuration.defaultConfiguration = config
+    }
+}
