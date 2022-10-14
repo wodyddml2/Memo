@@ -5,30 +5,10 @@ import RealmSwift
 
 class MemoViewController: BaseViewController {
     
-    private let repository = UserMemoRepository()
+
+    let viewModel = MemoViewModel()
     
-    
-    private var memoTasks: Results<UserMemo>? {
-        didSet {
-            memoTableView.reloadData()
-            navigationItem.title = "\(titleCountFormat())개의 메모"
-        }
-    }
-    
-    private var fixedMemoTasks: Results<UserMemo>? {
-        didSet {
-            memoTableView.reloadData()
-            navigationItem.title = "\(titleCountFormat())개의 메모"
-        }
-    }
-    
-    var tasks: Results<UserMemo>? {
-        didSet {
-            memoTableView.reloadData()
-            navigationItem.title = "\(titleCountFormat())개의 메모"
-        }
-    }
-    
+
     private var isFilter: Bool {
         let searchContoller = navigationItem.searchController
         let isActive = searchContoller?.isActive ?? false
@@ -58,23 +38,24 @@ class MemoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // 1. fileURL
-        print("FileURL: \(repository.localRealm.configuration.fileURL!)")
-        
-        // 2. schema version
-        do {
-            let version = try schemaVersionAtURL(repository.localRealm.configuration.fileURL!)
-            print("Schema Version: \(version)")
-        } catch {
-            print(error)
-        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.fetchFixed()
+        viewModel.fetchNonFixed()
         
-        memoTasks = repository.fetchMemoFilter()
-        fixedMemoTasks = repository.fetchFixedMemoFilter()
+        viewModel.allMemo.bind { _ in
+            self.memoTableView.reloadData()
+        }
+        
+        viewModel.fixedMemo.bind { _ in
+            self.memoTableView.reloadData()
+        }
+        
+        viewModel.nonFixedMemo.bind { _ in
+            self.memoTableView.reloadData()
+        }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -127,7 +108,7 @@ class MemoViewController: BaseViewController {
     private func titleCountFormat() -> String {
         let numberFormat = NumberFormatter()
         numberFormat.numberStyle = .decimal
-        return numberFormat.string(for: (memoTasks?.count ?? 0) + (fixedMemoTasks?.count ?? 0)) ?? "0"
+        return numberFormat.string(for: viewModel.nonFixedMemo.value.count + viewModel.fixedMemo.value.count) ?? "0"
     }
 }
 
@@ -138,43 +119,17 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         if isFilter {
             return 1
         } else {
-            if fixedMemoTasks?.isEmpty == true {
-                return 1
-            } else {
-                return 2
-            }
+            return viewModel.numberOfSections
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFilter {
-            return tasks?.count ?? 0
+            return viewModel.filterNumberOfRowsInSection
         } else {
-            if fixedMemoTasks?.isEmpty == true {
-                return memoTasks?.count ?? 0
-            } else {
-                if section == 0 {
-                    return fixedMemoTasks?.count ?? 0
-                } else {
-                    return memoTasks?.count ?? 0
-                }
-            }
+            return viewModel.numberofRowsInSection(tableView, numberOfRowsInSection: section)
         }
     }
     
-    func dateFormatter(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko-KR")
-        
-        if Calendar.current.isDateInToday(date) {
-            formatter.dateFormat = "a hh:mm"
-        } else if Calendar.current.isDateInWeekend(date) {
-            formatter.dateFormat = "EEEE"
-        } else {
-            formatter.dateFormat = "yyyy.MM.dd a hh:mm"
-        }
-        
-        return formatter.string(from: date)
-    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseableIdentifier, for: indexPath) as? MemoTableViewCell else {
@@ -188,8 +143,8 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.memoTitleLabel.text = nil
             cell.memoSubTitleLabel.text = nil
             
-            let titles = tasks?[indexPath.row].memoTitle ?? ""
-            var subTitles = tasks?[indexPath.row].memoSubTitle ?? ""
+            let titles = viewModel.filterTitle(index: indexPath.row)
+            var subTitles = viewModel.filterSubTitle(index: indexPath.row)
             
             if subTitles.count != 0 {
                 subTitles.removeFirst(1)
@@ -217,7 +172,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.memoSubTitleLabel.text = subTitles
             }
   
-            cell.memoDateLabel.text = dateFormatter(date: tasks?[indexPath.row].memoDate ?? Date())
+            cell.memoDateLabel.text = viewModel.filterMemoDate(index: indexPath.row)
        
         } else {
             
@@ -226,23 +181,8 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.memoTitleLabel.text = nil
             cell.memoSubTitleLabel.text = nil
             
-            if fixedMemoTasks?.isEmpty == true {
-                cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
-                cell.memoDateLabel.text = dateFormatter(date: memoTasks?[indexPath.row].memoDate ?? Date())
-                cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
-                
-            } else {
-                if indexPath.section == 0 {
-                    cell.memoTitleLabel.text = fixedMemoTasks?[indexPath.row].memoTitle
-                    cell.memoDateLabel.text = dateFormatter(date: fixedMemoTasks?[indexPath.row].memoDate ?? Date())
-                    cell.memoSubTitleLabel.text = fixedMemoTasks?[indexPath.row].memoSubTitle
-                } else {
-                    cell.memoTitleLabel.text = memoTasks?[indexPath.row].memoTitle
-                    cell.memoDateLabel.text = dateFormatter(date: memoTasks?[indexPath.row].memoDate ?? Date())
-                    cell.memoSubTitleLabel.text = memoTasks?[indexPath.row].memoSubTitle
+            viewModel.notFilterCellForRowAtCondition(cell: cell,tableView, indexPath: indexPath)
 
-                }
-            }
             if cell.memoSubTitleLabel.text?.count != 0 {
                 cell.memoSubTitleLabel.text?.removeFirst(1)
             }
@@ -256,12 +196,12 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         
         if memoSearchController.isActive {
             navigationItem.backButtonTitle = "검색"
-            vc.memoTasks = tasks?[indexPath.row]
+            vc.memoTasks = viewModel.allMemo.value[indexPath.row]
         } else {
-            if fixedMemoTasks?.isEmpty == true {
-                vc.memoTasks = memoTasks?[indexPath.row]
+            if viewModel.fixedMemo.value.isEmpty == true {
+                vc.memoTasks = viewModel.nonFixedMemo.value[indexPath.row]
             } else {
-                vc.memoTasks = indexPath.section == 0 ? fixedMemoTasks?[indexPath.row] : memoTasks?[indexPath.row]
+                vc.memoTasks = indexPath.section == 0 ? viewModel.fixedMemo.value[indexPath.row] : viewModel.nonFixedMemo.value[indexPath.row]
             }
         }
         
@@ -286,9 +226,9 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         
         label.font = .boldSystemFont(ofSize: 24)
         if isFilter {
-            label.text = "\(tasks?.count ?? 0)개 찾음"
+            label.text = "\(viewModel.filterNumberOfRowsInSection)개 찾음"
         } else {
-            if fixedMemoTasks?.isEmpty == true {
+            if viewModel.fixedMemo.value.isEmpty == true {
                 label.text = "메모"
             } else {
                 if section == 0 {
@@ -307,24 +247,10 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         let delete = UIContextualAction(style: .destructive, title: "") { action, view, completionHandler in
           
             self.showAlertHandlingMessage(title: "메모를 삭제 하시겠습니까?") { _ in
-                
-                if self.isFilter {
-                    self.repository.deleteMemo(item: self.tasks![indexPath.row])
-                } else {
-                    if self.fixedMemoTasks?.isEmpty == true {
-                        self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-                    } else {
-                        if indexPath.section == 0 {
-                            self.repository.deleteMemo(item: self.fixedMemoTasks![indexPath.row])
-                        } else {
-                            
-                            self.repository.deleteMemo(item: self.memoTasks![indexPath.row])
-                            
-                        }
-                    }
-                }
-                self.memoTasks = self.repository.fetchMemoFilter()
-                self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
+                self.viewModel.deleteMemo(filter: self.isFilter, indexPath: indexPath)
+                self.viewModel.fetchNonFixed()
+                self.viewModel.fetchFixed()
+
             }
   
         }
@@ -336,30 +262,13 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let fix = UIContextualAction(style: .normal, title: "") { action, view, completionHandler in
-            if self.isFilter {
-                self.repository.updateFix(item: self.tasks![indexPath.row])
-            } else {
-                if self.fixedMemoTasks?.isEmpty == true {
-                    self.repository.updateFix(item: self.memoTasks![indexPath.row])
-                } else {
-                    if indexPath.section == 0 {
-                        self.repository.updateFix(item: self.fixedMemoTasks![indexPath.row])
-                    } else {
-                        if (self.fixedMemoTasks?.count ?? 0) < 5 {
-                            self.repository.updateFix(item: self.memoTasks![indexPath.row])
-                        } else {
-                            self.showAlertMessage(title: "메모 고정은 5개가 최대입니다.")
-                        }
-                    }
-                }
-            }
-            
-            
-            self.memoTasks = self.repository.fetchMemoFilter()
-            self.fixedMemoTasks = self.repository.fetchFixedMemoFilter()
+            self.viewModel.updateFixMemo(filter: self.isFilter, indexPath: indexPath, self)
+            self.viewModel.fetchNonFixed()
+            self.viewModel.fetchFixed()
+
         }
         
-        if fixedMemoTasks?.isEmpty == true {
+        if viewModel.fixedMemo.value.isEmpty {
             fix.image = UIImage(systemName: "pin.fill")
         } else {
             fix.image = indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
@@ -375,11 +284,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
 extension MemoViewController: UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text?.lowercased() else { return }
-        
-        tasks = repository.fetch().where {
-            $0.memoTitle.contains(text, options: .caseInsensitive) || $0.memoSubTitle.contains(text, options: .caseInsensitive)
-        }
-
+        viewModel.fetchSearch(text: text)
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
