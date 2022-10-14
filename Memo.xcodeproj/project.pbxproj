@@ -19,6 +19,7 @@
 		63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */; };
 		63BFFEF128C0D9AD0045D44A /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEF028C0D9AD0045D44A /* RealmModel.swift */; };
 		63BFFEF328C0DB6E0045D44A /* UserMemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEF228C0DB6E0045D44A /* UserMemoRepository.swift */; };
+		63C608F428F97AE900A232F2 /* ShowAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C608F328F97AE900A232F2 /* ShowAlertProtocol.swift */; };
 		63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520028BF3E70003822BA /* AppDelegate.swift */; };
 		63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520228BF3E70003822BA /* SceneDelegate.swift */; };
 		63E1520528BF3E70003822BA /* MemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520428BF3E70003822BA /* MemoViewController.swift */; };
@@ -26,6 +27,8 @@
 		63E1520D28BF3E72003822BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63E1520B28BF3E72003822BA /* LaunchScreen.storyboard */; };
 		63E1521628BF4152003822BA /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1521528BF4151003822BA /* WriteViewController.swift */; };
 		63E1521828BF415B003822BA /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1521728BF415B003822BA /* PopupViewController.swift */; };
+		63E780FB28F85410006D411C /* MemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E780FA28F85410006D411C /* MemoViewModel.swift */; };
+		63E780FD28F85429006D411C /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E780FC28F85429006D411C /* Observable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,7 @@
 		63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
 		63BFFEF028C0D9AD0045D44A /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		63BFFEF228C0DB6E0045D44A /* UserMemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemoRepository.swift; sourceTree = "<group>"; };
+		63C608F328F97AE900A232F2 /* ShowAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlertProtocol.swift; sourceTree = "<group>"; };
 		63E151FD28BF3E70003822BA /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E1520028BF3E70003822BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63E1520228BF3E70003822BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +51,8 @@
 		63E1520E28BF3E72003822BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63E1521528BF4151003822BA /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		63E1521728BF415B003822BA /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
+		63E780FA28F85410006D411C /* MemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewModel.swift; sourceTree = "<group>"; };
+		63E780FC28F85429006D411C /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +82,8 @@
 		63BFFEE028C09D7C0045D44A /* Memo */ = {
 			isa = PBXGroup;
 			children = (
-				63E1520428BF3E70003822BA /* MemoViewController.swift */,
-				63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */,
+				63C608F228F9783100A232F2 /* View */,
+				63C608F128F9782A00A232F2 /* ViewModel */,
 			);
 			path = Memo;
 			sourceTree = "<group>";
@@ -104,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */,
+				63C608F328F97AE900A232F2 /* ShowAlertProtocol.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -115,6 +122,23 @@
 				63BFFEF228C0DB6E0045D44A /* UserMemoRepository.swift */,
 			);
 			path = Realm;
+			sourceTree = "<group>";
+		};
+		63C608F128F9782A00A232F2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				63E780FA28F85410006D411C /* MemoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		63C608F228F9783100A232F2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63E1520428BF3E70003822BA /* MemoViewController.swift */,
+				63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		63E151F428BF3E70003822BA = {
@@ -138,6 +162,7 @@
 			children = (
 				63E1520028BF3E70003822BA /* AppDelegate.swift */,
 				63E1520228BF3E70003822BA /* SceneDelegate.swift */,
+				63E780FC28F85429006D411C /* Observable.swift */,
 				63BFFEEF28C0D99A0045D44A /* Realm */,
 				63BFFEEC28C0A0670045D44A /* Protocol */,
 				63BFFED928C09B700045D44A /* Utility */,
@@ -239,10 +264,13 @@
 				63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */,
 				63BFFEEB28C09DED0045D44A /* MemoTableViewCell.swift in Sources */,
 				63E1521628BF4152003822BA /* WriteViewController.swift in Sources */,
+				63E780FD28F85429006D411C /* Observable.swift in Sources */,
 				63BFFEDD28C09B8F0045D44A /* BaseView.swift in Sources */,
 				63BFFEF328C0DB6E0045D44A /* UserMemoRepository.swift in Sources */,
 				63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */,
+				63E780FB28F85410006D411C /* MemoViewModel.swift in Sources */,
 				63BFFEF128C0D9AD0045D44A /* RealmModel.swift in Sources */,
+				63C608F428F97AE900A232F2 /* ShowAlertProtocol.swift in Sources */,
 				63BFFEDB28C09B870045D44A /* BaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -33,6 +33,12 @@ class UserMemoRepository: UserMemoRepositoryType {
         return localRealm.objects(UserMemo.self).filter("memoFix == %@", true)
     }
     
+    func fetchSearchFilter(text: String) -> Results<UserMemo> {
+        return localRealm.objects(UserMemo.self).where {
+            $0.memoTitle.contains(text, options: .caseInsensitive) || $0.memoSubTitle.contains(text, options: .caseInsensitive)
+        }
+    }
+    
     func updateFix(item: UserMemo) {
         try! localRealm.write {
             item.memoFix.toggle()
