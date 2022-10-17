@@ -13,6 +13,8 @@ class WriteViewController: BaseViewController {
     
     private let mainView = WriteView()
     
+    let viewModel = WriteViewModel()
+    
     private let repository = UserMemoRepository()
     
     var memoTasks: UserMemo?
@@ -57,7 +59,6 @@ class WriteViewController: BaseViewController {
                 repository.deleteMemo(item: memoTasks!)
             }
         }
-        
     }
     override func configureUI() {
         
@@ -80,9 +81,7 @@ class WriteViewController: BaseViewController {
     }
     @objc func shareButtonClicked() {
         
-        guard let memo = mainView.memoTextView.text else {
-            return
-        }
+        guard let memo = mainView.memoTextView.text else { return }
         let vc = UIActivityViewController(activityItems: [memo], applicationActivities: nil)
         vc.excludedActivityTypes = [.mail, .message, .postToTwitter, .airDrop]
         

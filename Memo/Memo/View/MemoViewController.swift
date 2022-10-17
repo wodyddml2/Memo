@@ -9,6 +9,7 @@ class MemoViewController: BaseViewController {
     let viewModel = MemoViewModel()
     
 
+    let repository = UserMemoRepository()
     private var isFilter: Bool {
         let searchContoller = navigationItem.searchController
         let isActive = searchContoller?.isActive ?? false
@@ -38,11 +39,13 @@ class MemoViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.fetchFixed()
         viewModel.fetchNonFixed()
+        
         
         viewModel.allMemo.bind { _ in
             self.memoTableView.reloadData()
@@ -54,6 +57,17 @@ class MemoViewController: BaseViewController {
         
         viewModel.nonFixedMemo.bind { _ in
             self.memoTableView.reloadData()
+        }
+        viewModel.fetch()
+        print("FileURL: \(repository.localRealm.configuration.fileURL!)")
+        let example = repository.localRealm.objects(UserMemo.self)
+        
+        let folder = Folder(folderName: "고\(Int.random(in: 1...3))")
+        print(viewModel.allMemo.value.count)
+        for i in 0...viewModel.allMemo.value.count - 1 {
+            try! repository.localRealm.write({
+                example[i].folder.append(folder)
+            })
         }
 
     }

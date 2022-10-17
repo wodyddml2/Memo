@@ -103,7 +103,6 @@ extension MemoViewModel: ShowAlertProtocol {
     }
     
     func notFilterCellForRowAt(cell: MemoTableViewCell,_ tableView: UITableView, indexPath: IndexPath, task: Observable<[UserMemo]>) {
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseableIdentifier, for: indexPath) as? MemoTableViewCell else { return }
         cell.memoTitleLabel.text = task.value[indexPath.row].memoTitle
         cell.memoDateLabel.text = dateFormatter(date: task.value[indexPath.row].memoDate)
         cell.memoSubTitleLabel.text = task.value[indexPath.row].memoSubTitle

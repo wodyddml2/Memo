@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63A593E228FC1E3A00F750AC /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A593E128FC1E3A00F750AC /* WriteViewModel.swift */; };
+		63BB09AD28FD5236003EA0C5 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BB09AC28FD5236003EA0C5 /* Folder.swift */; };
 		63BFFED328C09B120045D44A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED228C09B120045D44A /* SnapKit */; };
 		63BFFED628C09B3B0045D44A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED528C09B3B0045D44A /* Realm */; };
 		63BFFED828C09B3B0045D44A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED728C09B3B0045D44A /* RealmSwift */; };
@@ -17,7 +19,7 @@
 		63BFFEE928C09DC80045D44A /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEE828C09DC80045D44A /* WriteView.swift */; };
 		63BFFEEB28C09DED0045D44A /* MemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */; };
 		63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */; };
-		63BFFEF128C0D9AD0045D44A /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEF028C0D9AD0045D44A /* RealmModel.swift */; };
+		63BFFEF128C0D9AD0045D44A /* UserMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEF028C0D9AD0045D44A /* UserMemo.swift */; };
 		63BFFEF328C0DB6E0045D44A /* UserMemoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BFFEF228C0DB6E0045D44A /* UserMemoRepository.swift */; };
 		63C608F428F97AE900A232F2 /* ShowAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C608F328F97AE900A232F2 /* ShowAlertProtocol.swift */; };
 		63E1520128BF3E70003822BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E1520028BF3E70003822BA /* AppDelegate.swift */; };
@@ -32,6 +34,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		63A593E128FC1E3A00F750AC /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
+		63BB09AC28FD5236003EA0C5 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		63BFFEDA28C09B870045D44A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		63BFFEDC28C09B8F0045D44A /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		63BFFEDE28C09BC10045D44A /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -39,7 +43,7 @@
 		63BFFEE828C09DC80045D44A /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		63BFFEEA28C09DED0045D44A /* MemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoTableViewCell.swift; sourceTree = "<group>"; };
 		63BFFEED28C0A07C0045D44A /* ReusableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProtocol.swift; sourceTree = "<group>"; };
-		63BFFEF028C0D9AD0045D44A /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
+		63BFFEF028C0D9AD0045D44A /* UserMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemo.swift; sourceTree = "<group>"; };
 		63BFFEF228C0DB6E0045D44A /* UserMemoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMemoRepository.swift; sourceTree = "<group>"; };
 		63C608F328F97AE900A232F2 /* ShowAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlertProtocol.swift; sourceTree = "<group>"; };
 		63E151FD28BF3E70003822BA /* Memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +73,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63A593E328FC1E3F00F750AC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				63E1521528BF4151003822BA /* WriteViewController.swift */,
+				63BFFEE828C09DC80045D44A /* WriteView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		63A593E428FC1E4900F750AC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				63A593E128FC1E3A00F750AC /* WriteViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		63BFFED928C09B700045D44A /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,8 +121,8 @@
 		63BFFEE728C09DB50045D44A /* Write */ = {
 			isa = PBXGroup;
 			children = (
-				63E1521528BF4151003822BA /* WriteViewController.swift */,
-				63BFFEE828C09DC80045D44A /* WriteView.swift */,
+				63A593E328FC1E3F00F750AC /* View */,
+				63A593E428FC1E4900F750AC /* ViewModel */,
 			);
 			path = Write;
 			sourceTree = "<group>";
@@ -118,7 +139,8 @@
 		63BFFEEF28C0D99A0045D44A /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				63BFFEF028C0D9AD0045D44A /* RealmModel.swift */,
+				63BFFEF028C0D9AD0045D44A /* UserMemo.swift */,
+				63BB09AC28FD5236003EA0C5 /* Folder.swift */,
 				63BFFEF228C0DB6E0045D44A /* UserMemoRepository.swift */,
 			);
 			path = Realm;
@@ -255,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A593E228FC1E3A00F750AC /* WriteViewModel.swift in Sources */,
 				63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */,
 				63E1521828BF415B003822BA /* PopupViewController.swift in Sources */,
 				63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */,
@@ -269,9 +292,10 @@
 				63BFFEF328C0DB6E0045D44A /* UserMemoRepository.swift in Sources */,
 				63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */,
 				63E780FB28F85410006D411C /* MemoViewModel.swift in Sources */,
-				63BFFEF128C0D9AD0045D44A /* RealmModel.swift in Sources */,
+				63BFFEF128C0D9AD0045D44A /* UserMemo.swift in Sources */,
 				63C608F428F97AE900A232F2 /* ShowAlertProtocol.swift in Sources */,
 				63BFFEDB28C09B870045D44A /* BaseViewController.swift in Sources */,
+				63BB09AD28FD5236003EA0C5 /* Folder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

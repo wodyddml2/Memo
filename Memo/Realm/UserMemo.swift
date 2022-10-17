@@ -15,6 +15,8 @@ class UserMemo: Object {
     @Persisted var memoSubTitle: String?
     @Persisted var memoFix: Bool
     
+    @Persisted var folder: List<Folder>
+    
     @Persisted(primaryKey: true) var objectId: ObjectId
     
     convenience init(memoTitle: String, memoDate: Date, memoSubTitle: String?, memoFix: Bool) {

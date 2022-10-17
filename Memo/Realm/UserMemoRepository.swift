@@ -50,4 +50,16 @@ class UserMemoRepository: UserMemoRepositoryType {
             localRealm.delete(item)
         }
     }
+    
+    func addMemo(item: UserMemo) throws {
+        try localRealm.write {
+            localRealm.add(item)
+        }
+    }
+    
+    func updateWriteMemo(completionHandler: @escaping () -> Void) throws {
+        try localRealm.write {
+            completionHandler()
+        }
+    }
 }
