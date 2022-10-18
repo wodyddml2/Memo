@@ -63,3 +63,29 @@ class UserMemoRepository: UserMemoRepositoryType {
         }
     }
 }
+
+class FolderRepository {
+    
+    let localRealm = try! Realm()
+    
+    func fetch() -> Results<Folder> {
+        return localRealm.objects(Folder.self)
+    }
+    
+    func fetchMemo(folder: Folder) -> List<UserMemo> {
+        return folder.memo
+    }
+    
+    func addFolder(item: Folder) throws {
+        try localRealm.write({
+            localRealm.add(item)
+        })
+    }
+    
+    func appendMemo(folder: Folder, item: UserMemo) throws {
+        try localRealm.write({
+            folder.memo.append(item)
+        })
+    }
+
+}

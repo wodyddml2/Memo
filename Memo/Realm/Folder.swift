@@ -11,6 +11,7 @@ import RealmSwift
 
 class Folder: Object {
     @Persisted var folderName: String
+    @Persisted var memo: List<UserMemo>
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     

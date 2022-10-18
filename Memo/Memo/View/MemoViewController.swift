@@ -8,7 +8,7 @@ class MemoViewController: BaseViewController {
 
     let viewModel = MemoViewModel()
     
-
+let folderRepo = FolderRepository()
     let repository = UserMemoRepository()
     private var isFilter: Bool {
         let searchContoller = navigationItem.searchController
@@ -58,18 +58,24 @@ class MemoViewController: BaseViewController {
         viewModel.nonFixedMemo.bind { _ in
             self.memoTableView.reloadData()
         }
-        viewModel.fetch()
-        print("FileURL: \(repository.localRealm.configuration.fileURL!)")
-        let example = repository.localRealm.objects(UserMemo.self)
+//        let list = ["고정된 메모", "메모"]
+//        print("FileURL: \(repository.localRealm.configuration.fileURL!)")
+//        for i in list {
+//            let folder = Folder(folderName: i)
+//            try! folderRepo.addFolder(item: folder)
+//            if i == "고정된 메모" {
+//                for i in viewModel.fixedMemo.value {
+//                    try! folderRepo.appendMemo(folder: folder, item: i)
+//                }
+//            } else {
+//                for i in viewModel.nonFixedMemo.value {
+//                    try! folderRepo.appendMemo(folder: folder, item: i)
+//                }
+//            }
+//        }
         
-        let folder = Folder(folderName: "고\(Int.random(in: 1...3))")
-        print(viewModel.allMemo.value.count)
-        for i in 0...viewModel.allMemo.value.count - 1 {
-            try! repository.localRealm.write({
-                example[i].folder.append(folder)
-            })
-        }
-
+       
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -109,9 +115,16 @@ class MemoViewController: BaseViewController {
         navigationController?.toolbar.tintColor = .orange
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let writeButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(writeButtonClicked))
-        toolbarItems = [flexSpace, writeButton]
+        let folderButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(folderButtonClicked))
+        toolbarItems = [folderButton, flexSpace, writeButton]
         
         navigationItem.backButtonTitle = "메모"
+    }
+    
+    @objc func folderButtonClicked() {
+        let vc = FolderViewController()
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func writeButtonClicked() {

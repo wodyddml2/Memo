@@ -15,7 +15,6 @@ class UserMemo: Object {
     @Persisted var memoSubTitle: String?
     @Persisted var memoFix: Bool
     
-    @Persisted var folder: List<Folder>
     
     @Persisted(primaryKey: true) var objectId: ObjectId
     

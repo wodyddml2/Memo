@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6314632C28FE9E0F001BABC8 /* FolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314632B28FE9E0F001BABC8 /* FolderViewController.swift */; };
+		6314632E28FE9E22001BABC8 /* FolderMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314632D28FE9E22001BABC8 /* FolderMemoViewController.swift */; };
+		6314633228FEA8DD001BABC8 /* FolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314633128FEA8DD001BABC8 /* FolderViewModel.swift */; };
+		6314633428FEB273001BABC8 /* FolderMemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6314633328FEB273001BABC8 /* FolderMemoViewModel.swift */; };
 		63A593E228FC1E3A00F750AC /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A593E128FC1E3A00F750AC /* WriteViewModel.swift */; };
 		63BB09AD28FD5236003EA0C5 /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BB09AC28FD5236003EA0C5 /* Folder.swift */; };
 		63BFFED328C09B120045D44A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 63BFFED228C09B120045D44A /* SnapKit */; };
@@ -34,6 +38,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6314632B28FE9E0F001BABC8 /* FolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewController.swift; sourceTree = "<group>"; };
+		6314632D28FE9E22001BABC8 /* FolderMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderMemoViewController.swift; sourceTree = "<group>"; };
+		6314633128FEA8DD001BABC8 /* FolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewModel.swift; sourceTree = "<group>"; };
+		6314633328FEB273001BABC8 /* FolderMemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderMemoViewModel.swift; sourceTree = "<group>"; };
 		63A593E128FC1E3A00F750AC /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
 		63BB09AC28FD5236003EA0C5 /* Folder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		63BFFEDA28C09B870045D44A /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
@@ -73,6 +81,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6314632F28FEA8C3001BABC8 /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				6314632B28FE9E0F001BABC8 /* FolderViewController.swift */,
+				6314633128FEA8DD001BABC8 /* FolderViewModel.swift */,
+			);
+			path = Folder;
+			sourceTree = "<group>";
+		};
+		6314633028FEA8CB001BABC8 /* FolderMemo */ = {
+			isa = PBXGroup;
+			children = (
+				6314632D28FE9E22001BABC8 /* FolderMemoViewController.swift */,
+				6314633328FEB273001BABC8 /* FolderMemoViewModel.swift */,
+			);
+			path = FolderMemo;
+			sourceTree = "<group>";
+		};
 		63A593E328FC1E3F00F750AC /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +211,8 @@
 				63E1520028BF3E70003822BA /* AppDelegate.swift */,
 				63E1520228BF3E70003822BA /* SceneDelegate.swift */,
 				63E780FC28F85429006D411C /* Observable.swift */,
+				6314632F28FEA8C3001BABC8 /* Folder */,
+				6314633028FEA8CB001BABC8 /* FolderMemo */,
 				63BFFEEF28C0D99A0045D44A /* Realm */,
 				63BFFEEC28C0A0670045D44A /* Protocol */,
 				63BFFED928C09B700045D44A /* Utility */,
@@ -278,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				63A593E228FC1E3A00F750AC /* WriteViewModel.swift in Sources */,
+				6314633428FEB273001BABC8 /* FolderMemoViewModel.swift in Sources */,
 				63BFFEDF28C09BC10045D44A /* BaseTableViewCell.swift in Sources */,
 				63E1521828BF415B003822BA /* PopupViewController.swift in Sources */,
 				63BFFEEE28C0A07C0045D44A /* ReusableProtocol.swift in Sources */,
@@ -291,11 +320,14 @@
 				63BFFEDD28C09B8F0045D44A /* BaseView.swift in Sources */,
 				63BFFEF328C0DB6E0045D44A /* UserMemoRepository.swift in Sources */,
 				63E1520328BF3E70003822BA /* SceneDelegate.swift in Sources */,
+				6314633228FEA8DD001BABC8 /* FolderViewModel.swift in Sources */,
 				63E780FB28F85410006D411C /* MemoViewModel.swift in Sources */,
 				63BFFEF128C0D9AD0045D44A /* UserMemo.swift in Sources */,
+				6314632C28FE9E0F001BABC8 /* FolderViewController.swift in Sources */,
 				63C608F428F97AE900A232F2 /* ShowAlertProtocol.swift in Sources */,
 				63BFFEDB28C09B870045D44A /* BaseViewController.swift in Sources */,
 				63BB09AD28FD5236003EA0C5 /* Folder.swift in Sources */,
+				6314632E28FE9E22001BABC8 /* FolderMemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,7 +474,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -471,7 +503,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

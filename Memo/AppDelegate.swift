@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate {
     func aboutRealmMigration() {
-        let config = Realm.Configuration(schemaVersion: 7) { migration, oldSchemaVersion in
+        let config = Realm.Configuration(schemaVersion: 8) { migration, oldSchemaVersion in
             if oldSchemaVersion < 1 {
                 migration.enumerateObjects(ofType: UserMemo.className()) { oldObject, newObject in
                     newObject!["memoDate"] = "\(oldObject!["memoDate"] ?? String.self)"
@@ -79,6 +79,7 @@ extension AppDelegate {
             }
             
             if oldSchemaVersion < 7 { }
+            if oldSchemaVersion < 8 { }
         }
         
         Realm.Configuration.defaultConfiguration = config
