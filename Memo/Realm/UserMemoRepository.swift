@@ -72,10 +72,6 @@ class FolderRepository {
         return localRealm.objects(Folder.self)
     }
     
-    func fetchMemo(folder: Folder) -> List<UserMemo> {
-        return folder.memo
-    }
-    
     func addFolder(item: Folder) throws {
         try localRealm.write({
             localRealm.add(item)

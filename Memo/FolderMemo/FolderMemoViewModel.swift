@@ -11,8 +11,6 @@ import RealmSwift
 
 class FolderMemoViewModel {
     
-    let repository = FolderRepository()
-    
     var folder: Folder?
     
     var tasks: Observable<[UserMemo]> = Observable([UserMemo]())
@@ -23,10 +21,14 @@ extension FolderMemoViewModel {
     func fetch() {
         if let folder = folder {
             tasks.value.removeAll()
-            let memo = repository.fetchMemo(folder: folder)
+            let memo = folder.memo
             memo.forEach {
                 tasks.value.append($0)
             }
         }
+    }
+    
+    func fetchSearch() {
+        
     }
 }

@@ -7,47 +7,36 @@
 
 import UIKit
 
-class FolderMemoViewController: BaseViewController{
-
+class FolderMemoViewController: BaseViewController {
+    
     let viewModel = FolderMemoViewModel()
     
     lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-        view.delegate = self
-        view.dataSource = self
         return view
     }()
-    
-    var cellRegistration: UICollectionView.CellRegistration<UICollectionViewListCell, UserMemo>?
+    lazy var searchController: UISearchController = {
+        let view = UISearchController(searchResultsController: nil)
+        view.searchResultsUpdater = self
+        return view
+    }()
+
+    var dataSource: UICollectionViewDiffableDataSource<Int, UserMemo>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.tasks.bind { _ in
-            self.collectionView.reloadData()
-        }
     }
     
     override func configureUI() {
         viewModel.fetch()
+        
+        navigationSet()
         view.addSubview(collectionView)
-        collectionViewConfiguration()
+        
+        createLayout()
+        configureDataSource()
     }
     
-    func collectionViewConfiguration() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        
-        collectionView.collectionViewLayout = layout
-        
-        cellRegistration = UICollectionView.CellRegistration(handler: { cell, indexPath, itemIdentifier in
-            var content = UIListContentConfiguration.valueCell()
-            
-            content.text = itemIdentifier.memoTitle
-            content.secondaryText = itemIdentifier.memoSubTitle
-            
-            cell.contentConfiguration = content
-        })
-    }
     
     override func setConstraints() {
         collectionView.snp.makeConstraints { make in
@@ -56,20 +45,61 @@ class FolderMemoViewController: BaseViewController{
     }
 }
 
-extension FolderMemoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.tasks.value.count
+extension FolderMemoViewController {
+    
+    private func navigationSet() {
+        navigationItem.searchController = searchController
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = viewModel.tasks.value[indexPath.row]
-        guard let cellRegistration = cellRegistration else {
-            return UICollectionViewCell()
-        }
-        let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+    private func createLayout() {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
-        return cell
+        collectionView.collectionViewLayout = layout
+        
+        
     }
-    
-    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, UserMemo>(handler: { cell, indexPath, itemIdentifier in
+            var content = UIListContentConfiguration.valueCell()
+            
+            content.text = itemIdentifier.memoTitle
+            content.secondaryText = itemIdentifier.memoSubTitle
+            
+            cell.contentConfiguration = content
+        })
+        
+        dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            let cell = collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+            
+            return cell
+        })
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Int, UserMemo>()
+        snapshot.appendSections([0])
+        snapshot.appendItems(viewModel.tasks.value)
+        dataSource?.apply(snapshot)
+    }
+}
+
+extension FolderMemoViewController: UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text?.lowercased() else {return}
+        let ss = viewModel.tasks.value.filter {
+            $0.memoTitle.contains(text) || ($0.memoSubTitle?.contains(text) == true)
+        }
+        if let dataSource = dataSource {
+            var snapshot = dataSource.snapshot()
+            if text.isEmpty {
+                snapshot.appendItems(viewModel.tasks.value)
+            } else {
+                snapshot.deleteAllItems()
+                snapshot.appendSections([0])
+                snapshot.appendItems(ss)
+            }
+            dataSource.apply(snapshot)
+        }
+    }
 }
