@@ -25,16 +25,4 @@ extension WriteViewModel: ShowAlertProtocol {
             viewController.present(showAlertMessage(title: "메모 수정에 실패했습니다."), animated: true)
         }
     }
-    
-//    func fetchAdd(title: String, subTitle: String, viewController: UIViewController) {
-//        do {
-//            let task = UserMemo(memoTitle: title, memoDate: Date(), memoSubTitle: subTitle, memoFix: false)
-//
-//            try repository.addMemo(item: task)
-//        } catch {
-//            viewController.present(showAlertMessage(title: "메모 수정에 실패했습니다."), animated: true)
-//        }
-//    }
-    
-    
 }

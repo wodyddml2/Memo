@@ -27,8 +27,4 @@ extension FolderMemoViewModel {
             }
         }
     }
-    
-    func fetchSearch() {
-        
-    }
 }

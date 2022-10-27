@@ -58,23 +58,6 @@ let folderRepo = FolderRepository()
         viewModel.nonFixedMemo.bind { _ in
             self.memoTableView.reloadData()
         }
-//        let list = ["고정된 메모", "메모"]
-//        print("FileURL: \(repository.localRealm.configuration.fileURL!)")
-//        for i in list {
-//            let folder = Folder(folderName: i)
-//            try! folderRepo.addFolder(item: folder)
-//            if i == "고정된 메모" {
-//                for i in viewModel.fixedMemo.value {
-//                    try! folderRepo.appendMemo(folder: folder, item: i)
-//                }
-//            } else {
-//                for i in viewModel.nonFixedMemo.value {
-//                    try! folderRepo.appendMemo(folder: folder, item: i)
-//                }
-//            }
-//        }
-        
-       
         
     }
     
@@ -156,8 +139,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
             return viewModel.numberofRowsInSection(tableView, numberOfRowsInSection: section)
         }
     }
-    
-    
+  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoTableViewCell.reuseableIdentifier, for: indexPath) as? MemoTableViewCell else {
             return UITableViewCell()
@@ -214,10 +196,10 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.memoSubTitleLabel.text?.removeFirst(1)
             }
         }
-  
+    
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = WriteViewController()
         

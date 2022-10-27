@@ -27,7 +27,7 @@ class MemoTableViewCell: BaseTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         configureUI()
         setConstraints()
         
@@ -36,11 +36,14 @@ class MemoTableViewCell: BaseTableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func configureUI() {
         [memoTitleLabel, memoDateLabel, memoSubTitleLabel].forEach {
             self.addSubview($0)
         }
+    }
+    override func prepareForReuse() {
+        print("prepareForReuse")
     }
     
     override func setConstraints() {
